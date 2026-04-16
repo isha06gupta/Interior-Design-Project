@@ -1,0 +1,281 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  background-color: #111;
+}
+
+.app-shell {
+  min-height: 100vh;
+  color: #fff;
+}
+
+.navbar {
+  width: 85%;
+  margin: 0 auto;
+  padding: 35px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-link {
+  display: inline-flex;
+}
+
+.logo {
+  width: 75px;
+  cursor: pointer;
+}
+
+.navbar ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.navbar ul li {
+  list-style: none;
+  margin: 0 20px;
+  position: relative;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.navbar ul li::after {
+  content: "";
+  height: 3px;
+  width: 0;
+  background: #009688;
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  transition: 0.5s;
+}
+
+.navbar ul li:hover::after {
+  width: 100%;
+}
+
+.banner {
+  min-height: calc(100vh - 145px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  padding: 0 20px 40px;
+}
+
+.content h1 {
+  font-size: clamp(2rem, 6vw, 4rem);
+  margin-top: 20px;
+}
+
+.content p {
+  margin: 20px auto;
+  font-weight: 110;
+  line-height: 30px;
+  max-width: 750px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+button {
+  width: 200px;
+  padding: 15px 0;
+  text-align: center;
+  border-radius: 25px;
+  font-weight: bold;
+  border: 2px solid #009688;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+button span {
+  background: #009688;
+  height: 100%;
+  width: 0;
+  border-radius: 25px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  transition: 0.5s;
+}
+
+button:hover span {
+  width: 100%;
+}
+
+button:hover {
+  border: none;
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.designs-section {
+  width: min(1100px, 95%);
+  margin: 40px auto 0;
+  text-align: left;
+}
+
+.designs-section h2 {
+  margin-bottom: 18px;
+  font-size: 1.8rem;
+}
+
+.design-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.design-card {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.design-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.design-body {
+  padding: 14px;
+}
+
+.design-body h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.design-body p {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #e3e3e3;
+}
+
+.design-tag {
+  display: inline-block;
+  background: #009688;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+.status-text {
+  margin: 12px 0 18px;
+  font-size: 0.95rem;
+}
+
+.auth-page {
+  min-height: calc(100vh - 145px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 30px;
+  backdrop-filter: blur(4px);
+}
+
+.auth-card h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.auth-card p {
+  color: #dddddd;
+  margin-bottom: 25px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-form label {
+  font-size: 0.95rem;
+  color: #f2f2f2;
+}
+
+.auth-form input {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+  outline: none;
+  margin-bottom: 8px;
+}
+
+.auth-form input:focus {
+  border-color: #009688;
+  box-shadow: 0 0 0 3px rgba(0, 150, 136, 0.25);
+}
+
+.auth-form button {
+  margin-top: 10px;
+  align-self: center;
+}
+
+.form-message {
+  margin-top: 16px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.success-text {
+  color: #6ee7b7;
+}
+
+.error-text {
+  color: #ff8a8a;
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .navbar ul {
+    justify-content: center;
+    row-gap: 12px;
+  }
+}
