@@ -29,6 +29,11 @@ public class DesignController {
         this.designService = designService;
     }
 
+    @GetMapping("/public")
+    public ResponseEntity<List<Design>> getPublicDesigns() {
+        return ResponseEntity.ok(designService.getPublicDesigns());
+    }
+
     @GetMapping
     public ResponseEntity<List<Design>> getAllDesigns(@RequestParam Long userId) {
         return ResponseEntity.ok(designService.getAllDesigns(userId));

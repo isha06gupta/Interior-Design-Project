@@ -22,6 +22,11 @@ public class DesignServiceImpl implements DesignService {
     }
 
     @Override
+    public List<Design> getPublicDesigns() {
+        return designRepository.findAll();
+    }
+
+    @Override
     public List<Design> getAllDesigns(Long userId) {
         return designRepository.findByUserId(userId);
     }

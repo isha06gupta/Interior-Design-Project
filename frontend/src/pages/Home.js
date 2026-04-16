@@ -11,9 +11,17 @@ function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+
+    if (!token) {
+      setDesigns([]);
+      setLoading(false);
+      return;
+    }
+
     const storedUser = localStorage.getItem("user");
     const user = storedUser ? JSON.parse(storedUser) : null;
-    setIsLoggedIn(!!user);
 
     if (!user) {
       setDesigns([]);
