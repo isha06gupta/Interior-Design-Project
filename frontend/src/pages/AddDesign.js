@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { createDesign } from "../services/api";
 
-const categories = ["Bedroom", "Kitchen", "Dining", "Backyard"];
+const categories = ["Bedroom", "Kitchen", "Living Room", "Front"];
 
 function AddDesign() {
+  const fileInputRef = useRef(null);   // ✅ correct place
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     category: categories[0],
     image: null
   });
+
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -55,13 +58,22 @@ function AddDesign() {
 
       await createDesign(payload);
 
+      // ✅ success
       setMessage("Design added successfully.");
+
+      // ✅ reset form
       setFormData({
         title: "",
         description: "",
         category: categories[0],
         image: null
       });
+
+      // ✅ reset file input (important)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+
     } catch (err) {
       if (typeof err.response?.data === "object") {
         const values = Object.values(err.response.data);
@@ -119,6 +131,7 @@ function AddDesign() {
 
           <label htmlFor="design-image">Image</label>
           <input
+            ref={fileInputRef}
             id="design-image"
             name="image"
             type="file"

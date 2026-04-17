@@ -32,7 +32,21 @@ function Register() {
     setSubmitting(true);
 
     try {
-      await registerUser(formData);
+      const response = await registerUser(formData);
+      const userPayload = response.user || response;
+      if (userPayload?.id && userPayload?.email) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            id: userPayload.id,
+            name: userPayload.name || formData.name || "",
+            email: userPayload.email
+          })
+        );
+      }
+      if (response?.token) {
+        localStorage.setItem("token", response.token);
+      }
       setMessage("Registration successful. You can now login.");
       setFormData({ name: "", email: "", password: "" });
     } catch (err) {

@@ -27,11 +27,18 @@ function Login() {
 
     try {
       const response = await loginUser(formData);
+      const userPayload = response.user || response;
       localStorage.setItem("token", response.token);
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ id: response.id, email: response.email })
-      );
+      const existingUser = JSON.parse(localStorage.getItem("user"));
+
+localStorage.setItem(
+  "user",
+  JSON.stringify({
+    id: userPayload.id,
+    name: userPayload.name || existingUser?.name || "",
+    email: userPayload.email
+  })
+);
       navigate("/");
     } catch (err) {
       if (typeof err.response?.data === "object") {
