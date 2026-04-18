@@ -594,6 +594,7 @@ button:disabled {
   box-shadow: 0 0 10px rgba(27, 94, 32, 0.4);
 }
 /* ================= IMAGE MODAL ================= */
+/* ================= IMAGE MODAL ================= */
 
 .image-modal-overlay {
   position: fixed;
@@ -602,27 +603,49 @@ button:disabled {
   width: 100%;
   height: 100%;
 
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);   /* 🔥 blur effect */
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  z-index: 2000;
+  z-index: 9999;
 }
 
 .image-modal-content {
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 90%;
+  max-height: 90%;
   border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: visible;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+  animation: zoomIn 0.3s ease;
 }
 
 .image-modal-content img {
-  width: 100%;
+  max-width: 100%;
+  max-height: 85vh;
+
+  width: auto;
   height: auto;
-  display: block;
+
+  object-fit: contain;   /* 🔥 THIS FIXES CROPPING */
   border-radius: 20px;
+}
+
+/* animation */
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

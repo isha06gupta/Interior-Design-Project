@@ -18,9 +18,6 @@ function Gallery() {
 
   useEffect(() => {
     const fetchDesigns = async () => {
-      setLoading(true);
-      setError("");
-
       try {
         const response = await fetch(
           "http://localhost:8080/api/designs/public"
@@ -29,7 +26,7 @@ function Gallery() {
 
         setDesigns(data);
         setFilteredDesigns(data);
-      } catch (err) {
+      } catch {
         setError("Failed to load designs.");
       } finally {
         setLoading(false);
@@ -39,7 +36,6 @@ function Gallery() {
     fetchDesigns();
   }, []);
 
-  // CATEGORY FILTER
   useEffect(() => {
     if (selectedCategory === "All") {
       setFilteredDesigns(designs);
@@ -50,7 +46,6 @@ function Gallery() {
     }
   }, [selectedCategory, designs]);
 
-  // SEARCH FILTER
   useEffect(() => {
     const handleSearch = (e) => {
       const value = e.detail.toLowerCase();
@@ -73,41 +68,38 @@ function Gallery() {
       <section className="content">
         <h1>Gallery</h1>
 
-        {/* ✅ FILTER */}
+        {/* FILTER */}
         <div className="filter-container">
           <label>Filter by Category</label>
-
           <select
             className="filter-dropdown"
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
             {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
+              <option key={cat}>{cat}</option>
             ))}
           </select>
         </div>
 
-        {/* STATES */}
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
 
-        {/* GRID */}
         <div className="design-grid">
           {filteredDesigns.map((design) => (
             <div className="design-card" key={design.id}>
               <img
-  src={`http://localhost:8080/uploads/${design.imagePath}`}
-  className="design-image"
-  alt="design"
-  onClick={() =>
-    setSelectedImage(
-      `http://localhost:8080/uploads/${design.imagePath}`
-    )
-  }
-/>
+                src={`http://localhost:8080/uploads/${design.imagePath}`}
+                className="design-image"
+                alt="design"
+                onClick={() => {
+                  console.log("Image clicked"); // DEBUG
+                  setSelectedImage(
+                    `http://localhost:8080/uploads/${design.imagePath}`
+                  );
+                }}
+              />
+
               <div className="design-body">
                 <h3>{design.title}</h3>
               </div>
@@ -115,19 +107,21 @@ function Gallery() {
           ))}
         </div>
       </section>
+
+      {/* MODAL */}
       {selectedImage && (
-  <div
-    className="image-modal-overlay"
-    onClick={() => setSelectedImage(null)}
-  >
-    <div
-      className="image-modal-content"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <img src={selectedImage} alt="full-view" />
-    </div>
-  </div>
-)}
+        <div
+          className="image-modal-overlay"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div
+            className="image-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img src={selectedImage} alt="full-view" />
+          </div>
+        </div>
+      )}
     </main>
   );
 }

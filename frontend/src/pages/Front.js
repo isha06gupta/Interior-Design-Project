@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 function Front() {
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const designs = [
     { img: "/images/front/front1.jpg", title: "Modern Villa Exterior" },
@@ -18,22 +19,34 @@ function Front() {
   ];
 
   return (
-    <main className="banner" style={{ marginTop: "20px" }}>
+    <main className="banner">
       <section className="content">
         <h1>Front Designs</h1>
 
         <div className="design-grid">
           {designs.map((design, index) => (
             <div className="design-card" key={index}>
-              <img src={design.img} className="design-image" alt={design.title} />
+              <img
+                src={design.img}
+                className="design-image"
+                alt={design.title}
+                onClick={() => setSelectedImage(design.img)}
+              />
               <div className="design-body">
                 <h3>{design.title}</h3>
               </div>
             </div>
           ))}
         </div>
-
       </section>
+
+      {selectedImage && (
+        <div className="image-modal-overlay" onClick={() => setSelectedImage(null)}>
+          <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
+            <img src={selectedImage} alt="full" />
+          </div>
+        </div>
+      )}
     </main>
   );
 }

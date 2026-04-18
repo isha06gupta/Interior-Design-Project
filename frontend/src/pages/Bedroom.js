@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 function Bedroom() {
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const designs = [
     { img: "/images/bedroom/bedroom1.jpg", title: "Cozy Wooden Bedroom" },
@@ -18,7 +19,7 @@ function Bedroom() {
   ];
 
   return (
-    <main className="banner" style={{ marginTop: "20px" }}>
+    <main className="banner">
       <section className="content">
         <h1>Bedroom Designs</h1>
 
@@ -29,6 +30,7 @@ function Bedroom() {
                 src={design.img}
                 className="design-image"
                 alt={design.title}
+                onClick={() => setSelectedImage(design.img)}
               />
               <div className="design-body">
                 <h3>{design.title}</h3>
@@ -36,8 +38,21 @@ function Bedroom() {
             </div>
           ))}
         </div>
-
       </section>
+
+      {selectedImage && (
+        <div
+          className="image-modal-overlay"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div
+            className="image-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img src={selectedImage} alt="full-view" />
+          </div>
+        </div>
+      )}
     </main>
   );
 }
