@@ -17,6 +17,7 @@ import Bedroom from "./pages/Bedroom";
 import Living from "./pages/Living";
 import Kitchen from "./pages/Kitchen";
 import Front from "./pages/Front";
+import AdminPanel from "./pages/AdminPanel";
 
 
 function App() {
@@ -54,14 +55,8 @@ function App() {
     </ProtectedRoute>
   }
 />
-        <Route
-          path="/edit-design/:id"
-          element={
-            <ProtectedRoute>
-              <EditDesign />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/edit-design/:id" element={<ProtectedRoute><EditDesign /></ProtectedRoute>} />
+        <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </div>
   );

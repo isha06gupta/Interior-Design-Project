@@ -43,6 +43,11 @@ function Navbar() {
             <Link to={item.path}>{item.name}</Link>
           </li>
         ))}
+        {user?.role === "ADMIN" && (
+          <li>
+            <Link to="/admin">Admin Panel</Link>
+          </li>
+        )}
       </ul>
 
       {/* 🔍 SEARCH BAR */}
@@ -58,17 +63,18 @@ function Navbar() {
           padding: "10px 18px",
           borderRadius: "24px",
           border: "1px solid rgba(255,255,255,0.8)",
-          width: "220px",
+          width: "240px",
           outline: "none",
           background: "rgba(255,255,255,0.95)",
-          color: "#1b5e20"
+          color: "#1b5e20",
+          fontSize: "16px"
         }}
       />
 
       {/* RIGHT SIDE */}
       {isLoggedIn ? (
         <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-          <span style={{ fontWeight: "500" }}>
+          <span style={{ fontWeight: "500", fontSize: "16px" }}>
             Hi, {user?.name?.trim() ? user.name : user?.email || "User"}
           </span>
 

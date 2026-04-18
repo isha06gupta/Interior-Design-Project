@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email already registered");
         }
+        user.setRole("USER");
         return userRepository.save(user);
     }
 
@@ -36,6 +37,12 @@ public class UserServiceImpl implements UserService {
         }
 
         String token = jwtUtil.generateToken(user.getEmail());
-        return new LoginResponse(token, user.getEmail(), user.getId());
+        return new LoginResponse(
+          token,
+          user.getEmail(),
+          user.getId(),
+          user.getName(),
+          user.getRole()
+        );
     }
 }

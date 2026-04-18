@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Front() {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [searchText, setSearchText] = useState("");
 
   const designs = [
     { img: "/images/front/front1.jpg", title: "Modern Villa Exterior" },
@@ -18,13 +19,28 @@ function Front() {
     { img: "/images/front/front12.jpg", title: "Urban Home Exterior" }
   ];
 
+  // ✅ SEARCH LISTENER
+  useEffect(() => {
+    const handleSearch = (e) => {
+      setSearchText(e.detail.toLowerCase());
+    };
+
+    window.addEventListener("search", handleSearch);
+    return () => window.removeEventListener("search", handleSearch);
+  }, []);
+
+  // ✅ FILTER LOGIC
+  const filteredDesigns = designs.filter((design) =>
+    design.title.toLowerCase().includes(searchText)
+  );
+
   return (
     <main className="banner">
       <section className="content">
         <h1>Front Designs</h1>
 
         <div className="design-grid">
-          {designs.map((design, index) => (
+          {filteredDesigns.map((design, index) => (
             <div className="design-card" key={index}>
               <img
                 src={design.img}
@@ -38,12 +54,24 @@ function Front() {
             </div>
           ))}
         </div>
+
+        {/* Optional UX */}
+        {filteredDesigns.length === 0 && (
+          <p style={{ marginTop: "20px" }}>No results found</p>
+        )}
       </section>
 
+      {/* ✅ MODAL */}
       {selectedImage && (
-        <div className="image-modal-overlay" onClick={() => setSelectedImage(null)}>
-          <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
-            <img src={selectedImage} alt="full" />
+        <div
+          className="image-modal-overlay"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div
+            className="image-modal-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img src={selectedImage} alt="full-view" />
           </div>
         </div>
       )}

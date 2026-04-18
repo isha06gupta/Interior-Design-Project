@@ -8,6 +8,7 @@ function Login() {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  // redirect if already logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -22,23 +23,27 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError("");
     setSubmitting(true);
+    setError(""); // ✅ clear old error
 
     try {
       const response = await loginUser(formData);
-      const userPayload = response.user || response;
-      localStorage.setItem("token", response.token);
-      const existingUser = JSON.parse(localStorage.getItem("user"));
 
-localStorage.setItem(
-  "user",
-  JSON.stringify({
-    id: userPayload.id,
-    name: userPayload.name || existingUser?.name || "",
-    email: userPayload.email
-  })
-);
+      // ✅ store token
+      localStorage.setItem("token", response.token);
+
+      // ✅ store user (FIXED)
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id: response.id,
+          email: response.email,
+          name: response.name,
+          role: response.role,
+        })
+      );
+
+      // ✅ navigate after success
       navigate("/");
     } catch (err) {
       if (typeof err.response?.data === "object") {

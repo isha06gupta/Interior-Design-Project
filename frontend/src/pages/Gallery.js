@@ -7,6 +7,8 @@ function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [likes, setLikes] = useState({});
+  const [liked, setLiked] = useState({});
 
   const categories = [
     "All",
@@ -45,6 +47,22 @@ function Gallery() {
       );
     }
   }, [selectedCategory, designs]);
+
+  useEffect(() => {
+    const fetchLikes = async () => {
+      const newLikes = {};
+
+      for (let d of designs) {
+        const res = await fetch(`http://localhost:8080/api/likes/${d.id}`);
+        const count = await res.text();
+        newLikes[d.id] = count;
+      }
+
+      setLikes(newLikes);
+    };
+
+    if (designs.length > 0) fetchLikes();
+  }, [designs]);
 
   useEffect(() => {
     const handleSearch = (e) => {
@@ -99,6 +117,43 @@ function Gallery() {
                   );
                 }}
               />
+
+              <div style={{ marginTop: "8px", textAlign: "center" }}>
+                <button
+                  onClick={async () => {
+                    const user = JSON.parse(localStorage.getItem("user"));
+
+                    await fetch(`http://localhost:8080/api/likes/${design.id}/${user.id}`, {
+                      method: "POST",
+                      headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                      }
+                    });
+
+                    // refresh count
+                    const res = await fetch(`http://localhost:8080/api/likes/${design.id}`);
+                    const count = await res.text();
+
+                    setLikes((prev) => ({
+                      ...prev,
+                      [design.id]: count
+                    }));
+
+                    setLiked((prev) => ({
+                      ...prev,
+                      [design.id]: !prev[design.id]
+                    }));
+                  }}
+                >
+                  <span style={{
+                    color: liked[design.id] ? "red" : "gray",
+                    fontSize: "18px",
+                    fontWeight: "600"
+                  }}>
+                    ❤️ {likes[design.id] || 0}
+                  </span>
+                </button>
+              </div>
 
               <div className="design-body">
                 <h3>{design.title}</h3>
